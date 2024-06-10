@@ -9,10 +9,14 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  // set these 3 headers to enable SSE
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
-  res.setHeader("Content-Encoding", "none"); // this header is only needed if server has default encoding
+
+  // this header is only needed if server has default encoding
+  res.setHeader("Content-Encoding", "none");
+
   res.flushHeaders();
 
   const senderId = req.query?.id;
@@ -20,6 +24,7 @@ export default function handler(
   function sendEvent(message: string) {
     // the text has to start with `data:` and end with `\n\n`
     const text = `data: ${JSON.stringify({ senderId, message })}\n\n`;
+
     res.write(text, (err) => {
       if (err) console.log("sending failed", err);
     });
