@@ -12,7 +12,7 @@ export default function handler(
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
-  res.setHeader("Content-Encoding", "none");
+  res.setHeader("Content-Encoding", "none"); // this header is only needed if server has default encoding
   res.flushHeaders();
 
   const senderId = req.query?.id;
